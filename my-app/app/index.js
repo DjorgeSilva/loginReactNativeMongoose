@@ -1,11 +1,16 @@
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StatusBar, StyleSheet } from "react-native";
 import Register from "./Pages/Register";
 
 export default function Page() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar
+        hidden={false}
+        barStyle="dark-content"
+        backgroundColor={"#B0E0E6"}
+      />
       <Register />
-    </View>
+    </SafeAreaView>
   );
 }
 
