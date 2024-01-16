@@ -12,7 +12,7 @@ export default function Page() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    padding: 24,
+    backgroundColor: "#B0E0E6",
+    padding: 15,
   },
 });
