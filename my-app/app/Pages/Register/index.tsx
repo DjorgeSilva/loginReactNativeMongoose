@@ -1,11 +1,11 @@
+import { Link } from "@react-navigation/native";
 import { Field, Formik } from "formik";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomInput from "../../Components/CustomInput";
 import registerUserPost from "../../Controllers/RegisterController";
 import { EMPTY_STRING } from "../../constants";
 import { registerValidationSchema } from "./registerSchema";
-
-export default function Register() {
+export default function Register({ navigation }) {
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Registrar</Text>
@@ -17,7 +17,10 @@ export default function Register() {
           password: EMPTY_STRING,
           confirmPassword: EMPTY_STRING,
         }}
-        onSubmit={registerUserPost}
+        onSubmit={(data) => {
+          registerUserPost(data);
+          navigation.navigate("Login");
+        }}
       >
         {({ handleSubmit, isValid }) => (
           <View style={styles.container}>
@@ -39,9 +42,12 @@ export default function Register() {
           </View>
         )}
       </Formik>
-      <Text style={{ ...styles.label, textAlign: "center", fontSize: 16 }}>
+      <Link
+        to={{ screen: "Login" }}
+        style={{ ...styles.label, textAlign: "center", fontSize: 16 }}
+      >
         Já está cadastrado? Login
-      </Text>
+      </Link>
     </View>
   );
 }

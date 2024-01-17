@@ -1,3 +1,4 @@
+import { Link } from "@react-navigation/native";
 import { Field, Formik } from "formik";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomInput from "../../Components/CustomInput";
@@ -5,14 +6,17 @@ import LoginController from "../../Controllers/LoginController";
 import { EMPTY_STRING } from "../../constants";
 import { loginValidationSchema } from "./loginSchema";
 
-export default function Login() {
+export default function Login({ navigation }) {
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Login</Text>
       <Formik
         validationSchema={loginValidationSchema}
         initialValues={{ email: EMPTY_STRING, password: EMPTY_STRING }}
-        onSubmit={LoginController}
+        onSubmit={(data) => {
+          LoginController(data);
+          navigation.navigate("Home");
+        }}
       >
         {({ handleSubmit, isValid }) => (
           <View style={styles.container}>
@@ -31,6 +35,12 @@ export default function Login() {
           </View>
         )}
       </Formik>
+      <Link
+        to={{ screen: "Register" }}
+        style={{ ...styles.label, textAlign: "center", fontSize: 16 }}
+      >
+        Ainda não é um membro? Registra-se
+      </Link>
     </View>
   );
 }
