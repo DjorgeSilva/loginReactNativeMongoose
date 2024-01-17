@@ -4,17 +4,17 @@ import * as yup from "yup";
 export const loginValidationSchema = yup.object().shape({
   email: yup
     .string()
-    .email("Please enter valid email")
-    .required("Email is required"),
+    .email("Insira um endereço de email válido")
+    .required("Email é obrigatório"),
   password: yup
     .string()
-    .matches(/\w*[a-z]\w*/, "Password must have a small letter")
-    .matches(/\w*[A-Z]\w*/, "Password must have a capital letter")
-    .matches(/\d/, "Password must have a number")
+    .matches(/\w*[a-z]\w*/, "Senha deve conter uma letra minúscula")
+    .matches(/\w*[A-Z]\w*/, "Senha deve conter uma letra maiúscula")
+    .matches(/\d/, "Senha deve conter um número")
     .matches(
       /[!@#$%^&*()\-_"=+{}; :,<.>]/,
-      "Password must have a special character"
+      "Senha deve conter um caractere especial"
     )
-    .min(8, ({ min }) => `Password must be at least ${min} characters`)
-    .required("Password is required"),
+    .min(8, ({ min }) => `Senha deve conter no minímo ${min} caracteres`)
+    .required("Senha é obrigatório"),
 });

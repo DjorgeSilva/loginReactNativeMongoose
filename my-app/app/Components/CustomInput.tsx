@@ -12,6 +12,7 @@ const CustomInput = (props) => {
 
   return (
     <>
+      {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
       <TextInput
         style={[styles.textInput, hasError && styles.errorInput]}
         value={value}
@@ -22,7 +23,6 @@ const CustomInput = (props) => {
         }}
         {...inputProps}
       />
-      {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
     </>
   );
 };
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 10,
     color: "red",
+    marginLeft: 12,
   },
   errorInput: {
     borderColor: "red",
