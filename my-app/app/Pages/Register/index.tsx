@@ -8,7 +8,7 @@ import { registerValidationSchema } from "../../utils/yupSchema";
 export default function Register() {
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Registrar</Text>
       <Formik
         validationSchema={registerValidationSchema}
         initialValues={{
@@ -21,28 +21,26 @@ export default function Register() {
         style={styles.container}
       >
         {({ handleSubmit, isValid }) => (
-          <>
-            <Text style={styles.inputLabel}>Name:</Text>
+          <View style={styles.container}>
+            <Text style={styles.label}>Name:</Text>
             <Field component={CustomInput} name="name" />
-            <Text style={styles.inputLabel}>Email:</Text>
+            <Text style={styles.label}>Email:</Text>
             <Field component={CustomInput} name="email" />
-            <Text style={styles.inputLabel}>Senha:</Text>
+            <Text style={styles.label}>Senha:</Text>
             <Field component={CustomInput} name="password" />
-            <Text style={styles.inputLabel}>Confirmar senha:</Text>
+            <Text style={styles.label}>Confirmar senha:</Text>
             <Field component={CustomInput} name="confirmPassword" />
             <TouchableOpacity
               style={styles.button}
               onPress={() => handleSubmit()}
               disabled={!isValid}
             >
-              <Text style={{ ...styles.inputLabel, color: "#fff" }}>
-                Registrar
-              </Text>
+              <Text style={{ ...styles.label, color: "#fff" }}>Registrar</Text>
             </TouchableOpacity>
-          </>
+          </View>
         )}
       </Formik>
-      <Text style={{ ...styles.inputLabel, textAlign: "center" }}>
+      <Text style={{ ...styles.label, textAlign: "center", fontSize: 16 }}>
         Já está cadastrado? Login
       </Text>
     </View>
@@ -59,10 +57,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 64,
     fontWeight: "bold",
+    color: "#4682B4",
     marginBottom: 40,
+    marginLeft: 10,
   },
-  container: {},
-  inputLabel: {
+  container: {
+    marginRight: 20,
+  },
+  label: {
     fontSize: 15,
     fontWeight: "normal",
     paddingLeft: 12,
@@ -79,9 +81,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#4682B4",
     padding: 15,
     marginLeft: 12,
-    marginRight: 12,
+    marginRight: -10,
     marginTop: 30,
-    marginBottom: 10,
+    marginBottom: 25,
     borderRadius: 10,
   },
 });
