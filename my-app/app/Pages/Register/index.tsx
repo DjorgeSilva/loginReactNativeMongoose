@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import registerUserPost from "../../Controllers/RegisterController";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -36,7 +37,14 @@ export default function Register() {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log("pressed button")}
+        onPress={() =>
+          registerUserPost({
+            name,
+            email,
+            password,
+            confirmPassword,
+          })
+        }
       >
         <Text style={{ ...styles.inputLabel, color: "#fff" }}>Registrar</Text>
       </TouchableOpacity>
