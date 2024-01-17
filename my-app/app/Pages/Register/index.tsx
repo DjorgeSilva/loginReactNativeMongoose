@@ -1,53 +1,47 @@
-import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Field, Formik } from "formik";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import CustomInput from "../../Components/CustomInput";
 import registerUserPost from "../../Controllers/RegisterController";
+import { EMPTY_STRING } from "../../constants";
+import { registerValidationSchema } from "../../utils/yupSchema";
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Login</Text>
-      <View style={styles.container}>
-        <Text style={styles.inputLabel}>Name:</Text>
-        <TextInput style={styles.input} onChangeText={setName} value={name} />
-        <Text style={styles.inputLabel}>Email:</Text>
-        <TextInput style={styles.input} onChangeText={setEmail} value={email} />
-        <Text style={styles.inputLabel}>Senha:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setPassword}
-          value={password}
-        />
-        <Text style={styles.inputLabel}>Confirmar senha:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          registerUserPost({
-            name,
-            email,
-            password,
-            confirmPassword,
-          })
-        }
+      <Formik
+        validationSchema={registerValidationSchema}
+        initialValues={{
+          name: EMPTY_STRING,
+          email: EMPTY_STRING,
+          password: EMPTY_STRING,
+          confirmPassword: EMPTY_STRING,
+        }}
+        onSubmit={(values) => registerUserPost(values)}
+        style={styles.container}
       >
-        <Text style={{ ...styles.inputLabel, color: "#fff" }}>Registrar</Text>
-      </TouchableOpacity>
+        {({ handleSubmit, isValid }) => (
+          <>
+            <Text style={styles.inputLabel}>Name:</Text>
+            <Field component={CustomInput} name="name" />
+            <Text style={styles.inputLabel}>Email:</Text>
+            <Field component={CustomInput} name="email" />
+            <Text style={styles.inputLabel}>Senha:</Text>
+            <Field component={CustomInput} name="password" />
+            <Text style={styles.inputLabel}>Confirmar senha:</Text>
+            <Field component={CustomInput} name="confirmPassword" />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSubmit()}
+              disabled={!isValid}
+            >
+              <Text style={{ ...styles.inputLabel, color: "#fff" }}>
+                Registrar
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </Formik>
       <Text style={{ ...styles.inputLabel, textAlign: "center" }}>
         Já está cadastrado? Login
       </Text>
