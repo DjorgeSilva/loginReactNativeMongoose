@@ -1,47 +1,36 @@
 import { Field, Formik } from "formik";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomInput from "../../Components/CustomInput";
-import registerUserPost from "../../Controllers/RegisterController";
+import LoginController from "../../Controllers/LoginController";
 import { EMPTY_STRING } from "../../constants";
-import { registerValidationSchema } from "./registerSchema";
+import { loginValidationSchema } from "./loginSchema";
 
-export default function Register() {
+export default function Login() {
   return (
     <View style={styles.main}>
-      <Text style={styles.title}>Registrar</Text>
+      <Text style={styles.title}>Login</Text>
       <Formik
-        validationSchema={registerValidationSchema}
-        initialValues={{
-          name: EMPTY_STRING,
-          email: EMPTY_STRING,
-          password: EMPTY_STRING,
-          confirmPassword: EMPTY_STRING,
-        }}
-        onSubmit={registerUserPost}
+        validationSchema={loginValidationSchema}
+        initialValues={{ email: EMPTY_STRING, password: EMPTY_STRING }}
+        onSubmit={LoginController}
       >
         {({ handleSubmit, isValid }) => (
           <View style={styles.container}>
-            <Text style={styles.label}>Name:</Text>
-            <Field component={CustomInput} name="name" />
             <Text style={styles.label}>Email:</Text>
             <Field component={CustomInput} name="email" />
             <Text style={styles.label}>Senha:</Text>
             <Field component={CustomInput} name="password" />
-            <Text style={styles.label}>Confirmar senha:</Text>
-            <Field component={CustomInput} name="confirmPassword" />
+
             <TouchableOpacity
-              style={styles.button}
               onPress={() => handleSubmit()}
               disabled={!isValid}
+              style={styles.button}
             >
-              <Text style={{ ...styles.label, color: "#fff" }}>Registrar</Text>
+              <Text style={{ ...styles.label, color: "#fff" }}>Login</Text>
             </TouchableOpacity>
           </View>
         )}
       </Formik>
-      <Text style={{ ...styles.label, textAlign: "center", fontSize: 16 }}>
-        Já está cadastrado? Login
-      </Text>
     </View>
   );
 }
@@ -57,7 +46,7 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: "bold",
     color: "#4682B4",
-    marginBottom: 40,
+    marginBottom: 20,
     marginLeft: 10,
   },
   container: {
@@ -68,19 +57,12 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
     paddingLeft: 12,
   },
-  input: {
-    height: 40,
-    margin: 10,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10,
-  },
   button: {
     alignItems: "center",
     backgroundColor: "#4682B4",
     padding: 15,
     marginLeft: 12,
-    marginRight: -10,
+    marginRight: -12,
     marginTop: 30,
     marginBottom: 25,
     borderRadius: 10,
