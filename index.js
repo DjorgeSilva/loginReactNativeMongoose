@@ -9,12 +9,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Home Route
 app.get("/", (req, resp) => {
   resp.status(200).json({
     msg: "connected",
   });
 });
 
+// Register Route
 app.post("/auth/register", async (req, resp) => {
   const { name, email, password, confirmPassword } = req.body;
   //validate body
@@ -45,11 +47,11 @@ app.post("/auth/register", async (req, resp) => {
     });
   }
 
-  const userExist = await User.findOne({
+  const user = await User.findOne({
     email,
   });
 
-  if (userExist) {
+  if (user) {
     return resp.status(400).json({
       msg: "email is already taken",
     });
@@ -74,6 +76,44 @@ app.post("/auth/register", async (req, resp) => {
   } catch (error) {
     return resp.status(400).json(error);
   }
+});
+
+// Login Route
+app.post("/auth/login", async (req, res) => {
+  const { email, password } = req.body;
+  // validation
+  if (!email) {
+    return res.status(400).json({
+      msg: "not email provided",
+    });
+  }
+
+  if (!password) {
+    return res.status(400).json({
+      msg: "not password provided",
+    });
+  }
+
+  const user = await User.findOne({
+    email,
+  });
+
+  if (!user) {
+    return res.status(400).json({
+      msg: "the provided email is not valid",
+    });
+  }
+
+  // check password
+  const isPasswordValid = bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(400).json({
+      msg: "the provided password is not valid",
+    });
+  }
+  res.status(200).json({
+    msg: "logged successfully",
+  });
 });
 
 mongoose

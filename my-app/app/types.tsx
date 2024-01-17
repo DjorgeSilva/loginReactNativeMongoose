@@ -4,3 +4,8 @@ export type RegisterType = {
   password: String;
   confirmPassword: String;
 };
+
+export type LoginType = {
+  email: String;
+  password: String;
+};
