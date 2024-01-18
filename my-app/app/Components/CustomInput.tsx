@@ -7,13 +7,13 @@ const CustomInput = (props) => {
     form: { errors, touched, setFieldTouched },
     ...inputProps
   } = props;
-
   const hasError = errors[name] && touched[name];
-
+  const isPasswordField = name === "password" || name === "confirmPassword";
   return (
     <>
       {hasError && <Text style={styles.errorText}>{errors[name]}</Text>}
       <TextInput
+        secureTextEntry={isPasswordField}
         style={[styles.textInput, hasError && styles.errorInput]}
         value={value}
         onChangeText={(text) => onChange(name)(text)}
@@ -26,7 +26,6 @@ const CustomInput = (props) => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
   textInput: {
     height: 40,
