@@ -1,11 +1,32 @@
 import { Link } from "@react-navigation/native";
 import { Field, Formik } from "formik";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-root-toast";
 import CustomInput from "../../Components/CustomInput";
 import registerUserPost from "../../Controllers/RegisterController";
 import { EMPTY_STRING } from "../../constants";
+import { ApiResponseType, RegisterType } from "../../types";
 import { registerValidationSchema } from "./registerSchema";
+
 export default function Register({ navigation }) {
+  const onSubmit = async (data: RegisterType): Promise<void> => {
+    const response: ApiResponseType = await registerUserPost(data);
+    if (response.code !== 200) {
+      Toast.show(`${response.msg}` ?? "cadastrar: error", {
+        duration: Toast.durations.LONG,
+        backgroundColor: "#ED4242",
+        textColor: "#fff",
+      });
+      return;
+    }
+    Toast.show("Registrado com sucesso", {
+      duration: Toast.durations.LONG,
+      backgroundColor: "#3DA008",
+      textColor: "#fff",
+    });
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Registrar</Text>
@@ -17,10 +38,7 @@ export default function Register({ navigation }) {
           password: EMPTY_STRING,
           confirmPassword: EMPTY_STRING,
         }}
-        onSubmit={(data) => {
-          registerUserPost(data);
-          navigation.navigate("Login");
-        }}
+        onSubmit={onSubmit}
       >
         {({ handleSubmit, isValid }) => (
           <View style={styles.container}>

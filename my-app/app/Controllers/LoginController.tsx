@@ -1,6 +1,8 @@
-import { LoginType } from "../types";
+import { ApiResponseType, LoginType } from "../types";
 
-export default async function LoginController(data: LoginType) {
+export default async function LoginController(
+  data: LoginType
+): Promise<ApiResponseType> {
   try {
     const response = await fetch("http://192.168.3.26:8080/auth/login", {
       method: "POST",
@@ -14,8 +16,7 @@ export default async function LoginController(data: LoginType) {
       .catch((error) => {
         console.error(error);
       });
-    console.log("logging: ", response);
-    // move to home screen
+    return response;
   } catch (error) {
     console.error(error);
   }

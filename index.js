@@ -22,28 +22,33 @@ app.post("/auth/register", async (req, resp) => {
   //validate body
   if (!name) {
     return resp.status(400).json({
-      msg: "not name provided",
+      code: 400,
+      msg: "nome é obrigatório",
     });
   }
   if (!email) {
     return resp.status(400).json({
-      msg: "not email provided",
+      code: 400,
+      msg: "email é obrigatório",
     });
   }
   if (!password) {
     return resp.status(400).json({
-      msg: "not password provided",
+      code: 400,
+      msg: "senha é obrigatório",
     });
   }
   if (!confirmPassword) {
     return resp.status(400).json({
-      msg: "not confirm password provided",
+      code: 400,
+      msg: "confirmar senha é obrigatório",
     });
   }
 
   if (password !== confirmPassword) {
     return resp.status(400).json({
-      msg: "passwords should match",
+      code: 400,
+      msg: "senhas devem ser iguais",
     });
   }
 
@@ -53,7 +58,8 @@ app.post("/auth/register", async (req, resp) => {
 
   if (user) {
     return resp.status(400).json({
-      msg: "email is already taken",
+      code: 400,
+      msg: "email já está cadastrado",
     });
   }
 
@@ -67,7 +73,7 @@ app.post("/auth/register", async (req, resp) => {
     });
     await newUser.save();
     return resp.status(200).json({
-      msg: "connected",
+      code: 200,
       data: {
         name: newUser.name,
         email: newUser.email,
@@ -84,13 +90,15 @@ app.post("/auth/login", async (req, res) => {
   // validation
   if (!email) {
     return res.status(400).json({
-      msg: "not email provided",
+      code: 400,
+      msg: "email é obrigatório",
     });
   }
 
   if (!password) {
     return res.status(400).json({
-      msg: "not password provided",
+      code: 400,
+      msg: "senha é obrigatório",
     });
   }
 
@@ -100,19 +108,22 @@ app.post("/auth/login", async (req, res) => {
 
   if (!user) {
     return res.status(400).json({
-      msg: "the provided email is not valid",
+      code: 400,
+      msg: "email inválido",
     });
   }
 
   // check password
-  const isPasswordValid = bcrypt.compare(password, user.password);
+  const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     return res.status(400).json({
-      msg: "the provided password is not valid",
+      code: 400,
+      msg: "senha inválida",
     });
   }
   res.status(200).json({
-    msg: "logged successfully",
+    code: 200,
+    msg: "login efetuado com sucesso",
   });
 });
 

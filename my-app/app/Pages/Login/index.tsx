@@ -1,22 +1,38 @@
 import { Link } from "@react-navigation/native";
 import { Field, Formik } from "formik";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Toast from "react-native-root-toast";
 import CustomInput from "../../Components/CustomInput";
 import LoginController from "../../Controllers/LoginController";
 import { EMPTY_STRING } from "../../constants";
+import { LoginType } from "../../types";
 import { loginValidationSchema } from "./loginSchema";
 
 export default function Login({ navigation }) {
+  const onSubmit = async (data: LoginType): Promise<void> => {
+    const response = await LoginController(data);
+    if (response.code !== 200) {
+      Toast.show(`${response.msg}` ?? "login: error", {
+        duration: Toast.durations.LONG,
+        backgroundColor: "#ED4242",
+        textColor: "#fff",
+      });
+      return;
+    }
+    Toast.show("Login efetuado com sucesso", {
+      duration: Toast.durations.LONG,
+      backgroundColor: "#3DA008",
+      textColor: "#fff",
+    });
+  };
+
   return (
     <View style={styles.main}>
       <Text style={styles.title}>Login</Text>
       <Formik
         validationSchema={loginValidationSchema}
         initialValues={{ email: EMPTY_STRING, password: EMPTY_STRING }}
-        onSubmit={(data) => {
-          LoginController(data);
-          navigation.navigate("Home");
-        }}
+        onSubmit={onSubmit}
       >
         {({ handleSubmit, isValid }) => (
           <View style={styles.container}>

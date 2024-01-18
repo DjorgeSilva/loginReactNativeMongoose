@@ -1,8 +1,8 @@
-import { RegisterType } from "../types";
+import { ApiResponseType, RegisterType } from "../types";
 
 export default async function registerUserPost(
   data: RegisterType
-): Promise<void> {
+): Promise<ApiResponseType> {
   try {
     const response = await fetch("http://192.168.3.26:8080/auth/register", {
       method: "POST",
@@ -16,7 +16,7 @@ export default async function registerUserPost(
       .catch((error) => {
         console.error(error);
       });
-    // move to login screen
+    return response;
   } catch (error) {
     console.error(error);
   }
